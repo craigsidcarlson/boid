@@ -1,8 +1,10 @@
 const flock = [];
-
+const num_boids = 100;
 function setup() {
   createCanvas(640, 360);
-  flock.push(new Boid());
+  for (let i = 0; i < num_boids; i++) { 
+    flock.push(new Boid());
+  }
 }
 
 function draw() {
