@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/craigsidcarlson/boid/issues"
   },
-  "homepage": "https://github.com/craigsidcarlson/boid#readme"
+  "homepage": "https://github.com/craigsidcarlson/boid#readme",
+  "dependencies": {
+    "p5": "^1.1.9"
+  }
 }
