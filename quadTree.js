@@ -29,7 +29,7 @@ class QuadTree {
 
   getBoids() {
     if (this.divided) {
-      const sub_boids = [];
+      let sub_boids = [];
       sub_boids = sub_boids.concat(this.northeast.getBoids());
       sub_boids = sub_boids.concat(this.northwest.getBoids());
       sub_boids = sub_boids.concat(this.southeast.getBoids());
@@ -42,8 +42,7 @@ class QuadTree {
 
   query(range) {
     let found = [];
-
-    // if boundary doesnt intersect range at all, just return
+    // if boundary doesn't intersect range at all, just return
     if (!this.boundary.intersects(range)) {
       return found;
     } else if (this.boundary.enclosed(range)) { // If the boundary is completely in the range then ...
@@ -59,14 +58,13 @@ class QuadTree {
         found = found.concat(this.southwest.query(range));
       } else {
         for(let i = 0; i < this.boids.length; i++) {
-          if (range.contains(boids[i])) {
-            found = found.concat(boids[i]);
+          if (range.contains(this.boids[i])) {
+            found = found.concat(this.boids[i]);
           }
         }
       }
-
-      return found;
      }
+     return found;
   }
 
   subdivide() {
@@ -86,10 +84,11 @@ class QuadTree {
 
     // move current boids into sub quad trees
     for(let i = 0; i < this.boids.length; i++) {
-      if (this.northeast.insert(this.boids[i])) continue;
-      if (this.northwest.insert(this.boids[i])) continue;
-      if (this.southeast.insert(this.boids[i])) continue;
-      if (this.southwest.insert(this.boids[i])) continue;
+      let inserted = false;
+      inserted = this.northeast.insert(this.boids[i]);
+      if(!inserted) inserted = this.northwest.insert(this.boids[i]);
+      if(!inserted) inserted = this.southeast.insert(this.boids[i]);
+      if(!inserted) inserted = this.southwest.insert(this.boids[i]);
     }
     this.divided = true;
   }
@@ -108,18 +107,20 @@ class Rectangle{
     const boid_y = boid.position.y;
     return (
       boid_x >= this.x - this.w &&
-      boid_x <= this.x + this.w &&
+      boid_x < this.x + this.w &&
       boid_y >= this.y - this.h &&
-      boid_y <= this.y + this.h
+      boid_y < this.y + this.h
     );
   }
 
   // Does the rectangle intersects the range rectangle
   intersects(range) {
-    return !(range.x - range.w > this.x + this.w ||
-    range.x + range.w < this.x - this.w ||
-    range.y - range.h < this.y - this.h ||
-    range.y + range.h < this.y - this.h);
+    return !(
+      range.x - range.w > this.x + this.w ||
+      range.x + range.w < this.x - this.w ||
+      range.y - range.h > this.y + this.h ||
+      range.y + range.h < this.y - this.h
+    );
   }
 
   // Is the rectangle completed enclosed in the range rectangle
