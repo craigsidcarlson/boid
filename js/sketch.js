@@ -9,10 +9,11 @@ function setup() {
   // frameRate(1);
   canvas_boundary = new Rectangle(width/2, height/2, width/2, height/2);
   qt = new QuadTree(canvas_boundary);
-
+  const init_x_velocity = random(-4, 4);
+  const init_y_velocity = random(-4, 4);
   for (let i = 0; i < num_boids; i++) { 
     //flock.push(new Boid());
-    const boid = new Boid();
+    const boid = new Boid(init_x_velocity, init_y_velocity);
     flock.push(boid);
     qt.insert(boid);
   }
