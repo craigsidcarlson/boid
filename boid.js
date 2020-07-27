@@ -130,7 +130,7 @@ class Boid {
 
   show(special = false) {
     strokeWeight(1);
-    if (special) stroke('red');
+    if (special) stroke(201, 105, 18);
     else stroke(246, 193, 1);
     noFill(); // It is more performant without filling
 		const r = 3;
