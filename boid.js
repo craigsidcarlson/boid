@@ -6,7 +6,7 @@ class Boid {
     this.acceleration = createVector();
     this.new_acceleration = createVector();
     this.max_force = 0.1;
-    this.max_speed = 2.8;
+    this.max_speed = 3.8;
   }
 
   edges() {
@@ -129,7 +129,6 @@ class Boid {
   }
 
   show(special = false) {
-    let theta = this.velocity.heading() + PI / 2;
     strokeWeight(1);
     if (special) stroke('red');
     else stroke(246, 193, 1);
