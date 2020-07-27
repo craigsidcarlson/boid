@@ -1,12 +1,12 @@
 const flock = [];
-const num_boids = 10;
-const width = 900;
-const height = 900;
+const num_boids = 420;
+const width = 1500;
+const height = 850;
 let qt;
 let canvas_boundary;
 function setup() {
   createCanvas(width, height);
-  frameRate(1);
+  // frameRate(1);
   canvas_boundary = new Rectangle(width/2, height/2, width/2, height/2);
   qt = new QuadTree(canvas_boundary);
 
@@ -19,13 +19,14 @@ function setup() {
 }
 
 function draw() {
-  background(51);
+  background(44, 62, 80);
   const new_qt = new QuadTree(canvas_boundary);
   for(let i = 0; i < flock.length; i++) {
     flock[i].edges();
     flock[i].flock(qt);
     flock[i].update();
-    const point = flock[i].show();
+    let special = i % num_boids === 0 ? true : false;
+    const point = flock[i].show(special);
     new_qt.insert(point);
   }
   qt = new_qt;

@@ -14,6 +14,7 @@ class QuadTree {
 
     if (this.boids.length < this.capacity) {
       this.boids.push(boid);
+      boid.color = this.color;
       return true;
     } else {
       if(!this.divided) {

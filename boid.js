@@ -6,7 +6,7 @@ class Boid {
     this.acceleration = createVector();
     this.new_acceleration = createVector();
     this.max_force = 0.1;
-    this.max_speed = 0.1;
+    this.max_speed = 2.8;
   }
 
   edges() {
@@ -48,7 +48,7 @@ class Boid {
 
   
   cohesion(qt) {
-    let proximity = 40;
+    let proximity = 45;
     let total = 0;
     let steering = createVector();
     const range = new Rectangle(this.position.x, this.position.y, proximity/2, proximity/2);
@@ -128,11 +128,20 @@ class Boid {
     return this;
   }
 
-  show() {
+  show(special = false) {
     let theta = this.velocity.heading() + PI / 2;
-    strokeWeight(3);
-    stroke(255);
-    point(this.position.x, this.position.y);
+    strokeWeight(1);
+    if (special) stroke('red');
+    else stroke(246, 193, 1);
+    noFill(); // It is more performant without filling
+		const r = 3;
+		const angle = this.velocity.heading();
+		const anglePlus = 2.5;
+    triangle(
+			this.position.x + Math.cos(angle) * r, this.position.y + Math.sin(angle) * r,
+			this.position.x + Math.cos(angle + anglePlus) * r, this.position.y + Math.sin(angle + anglePlus) * r,
+			this.position.x + Math.cos(angle - anglePlus) * r, this.position.y + Math.sin(angle - anglePlus) * r
+		);
     return this;
   }
 }
