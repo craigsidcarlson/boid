@@ -70,7 +70,6 @@ class Boid {
         }
         //Separation
         if (distance < this.separation_proximity) {
-
           const difference = p5.Vector.sub(this.position, boids_in_quadrant[i].position);
           const dif_mag = difference.mag();
           if (dif_mag === 0) continue;
@@ -78,18 +77,8 @@ class Boid {
           separation_steering.add(difference);
           separation_total++;
         }
-        if (this.special && this.inView(boids_in_quadrant[i]) && distance < this.special_proximity ) {
-          
-          const eat_chance = floor(random(2));
-          const breed_chance = floor(random(2));
-          if(this.team !== boids_in_quadrant[i].team && eat_chance === 0) {
-            console.log('Boid eaten')
-            boids_in_quadrant[i].deleted = true;
-          }
-          if(this.team === boids_in_quadrant[i].team && breed_chance === 0) {
-            console.log('Boid created');
-            flock.push(new Boid(this.team, false, this.position.x, this.position.y));
-          } 
+        if (this.special && this.inView(boids_in_quadrant[i]) && distance < this.special_proximity) {
+          this.predatorAction(boids_in_quadrant[i], flock);
         }
     }
     const alignVector = this.getAlignVector(align_steering, align_total);
@@ -130,6 +119,26 @@ class Boid {
       steering.limit(this.max_force);
     }
     return steering;
+  }
+
+  predatorAction(target, flock) {
+    if(target.special) {
+      target.max_speed *= 0.9;
+      this.max_speed *= 1.1;
+      return;
+    }
+    const eat_chance = floor(random(1));
+    const breed_chance = floor(random(10));
+    if(this.team !== target.team && eat_chance === 0) {
+      console.log('Boid eaten');
+      this.max_speed += 0.3;
+      target.deleted = true;
+    }
+    if(this.team === target.team && breed_chance === 0) {
+      console.log('Boid created');
+      this.max_speed -= 0.1;
+      flock.push(new Boid(this.team, false, this.position.x, this.position.y));
+    } 
   }
 
   inView(target) {

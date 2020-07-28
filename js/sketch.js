@@ -4,9 +4,12 @@ const width = 1080;
 const height = 1080;
 let qt;
 let canvas_boundary;
+let red_leader;
+let blue_leader;
+
 function setup() {
   createCanvas(width, height);
-  canvas_boundary = new Rectangle(width/2 + 16, height/2 + 16, width/2 -16, height/2 -16);
+  canvas_boundary = new Rectangle(width/2, height/2 , width/2, height/2);
   qt = new QuadTree(canvas_boundary);
 
   for (let i = 0; i < num_boids; i++) { 
@@ -15,6 +18,8 @@ function setup() {
     flock.push(boid);
     qt.insert(boid);
   }
+  red_leader = flock[0];
+  blue_leader = flock[1];
 }
 
 function draw() {
@@ -37,8 +42,8 @@ function draw() {
   }
   textSize(12);
   fill(255);
-  text(`Red Team: ${teamZero}`, 10, 30);
-  text(`Blue Team: ${teamOne}`, 10, 60);
+  text(`Red: ${teamZero}`, 10, 30);
+  text(`Blue: ${teamOne}`, 60, 30);
   qt = new_qt;
 }
 
