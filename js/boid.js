@@ -10,7 +10,7 @@ class Boid {
     this.max_speed = 2.8;
 
     this.align_proximity = 35;
-    this.cohesion_proximity = 25;
+    this.cohesion_proximity = 35;
     this.separation_proximity = 52;
     this.special_proximity = 15;
     this.largest_proximity = this.align_proximity;
@@ -58,14 +58,13 @@ class Boid {
         if (distance === 0) continue;
 
         // Alignment
-        if (distance < this.align_proximity) {
+        if (distance < this.align_proximity && this.isFriendly(boids_in_quadrant[i])) {
           align_steering.add(boids_in_quadrant[i].velocity);
           align_total++;
         }
 
         // Cohesion
-        if (distance < this.cohesion_proximity) {
-
+        if (distance < this.cohesion_proximity && this.isFriendly(boids_in_quadrant[i])) {
           cohesion_steering.add(boids_in_quadrant[i].position);
           cohesion_total++;
         }
@@ -141,6 +140,11 @@ class Boid {
     return inView;
   }
 
+  isFriendly(target) {
+    if (this.special) return true;
+    return this.team === target.team;
+  }
+
   update() {
     this.position.add(this.velocity);
     this.velocity.add(this.acceleration);
@@ -170,10 +174,6 @@ class Boid {
       stroke('rgba(255,255,255, 0.25)');
       fill('rgba(255,255,255, 0.25)');
       arc(this.position.x, this.position.y, diameter, diameter, arc_start, arc_end); 
-
-      // noFill();
-      // rectMode(RADIUS);
-      // rect(this.position.x, this.position.y, this.largest_proximity/2, this.largest_proximity/2);
     }
     return this;
   }
