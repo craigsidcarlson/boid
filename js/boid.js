@@ -35,10 +35,10 @@ class Boid {
     else if (this.position.y < 0) this.position.y = height;
   }
 
-  flock(qt, flock) {
+  async flock(qt, flock) {
 
     const approximate_range = new Rectangle(this.position.x, this.position.y, this.largest_proximity/2, this.largest_proximity/2);
-    const boids_in_quadrant = qt.query(approximate_range);
+    const boids_in_quadrant = await qt.query(approximate_range);
 
     let align_steering = createVector();
     let cohesion_steering = createVector();
@@ -84,7 +84,6 @@ class Boid {
     const alignVector = this.getAlignVector(align_steering, align_total);
     const cohesionVector = this.getCohesionVector(cohesion_steering, cohesion_total);
     const separationVector = this.getSeparationVector(separation_steering, separation_total);
-    const avoidVector = 
     this.acceleration.add(alignVector);
     this.acceleration.add(cohesionVector);
     this.acceleration.add(separationVector);
