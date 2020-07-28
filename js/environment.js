@@ -77,20 +77,11 @@ class Environment {
     const stats = s || { max_force: this.force, mass: this.mass, max_speed: this.speed, team: index % 2, special };
     const new_boid = new Boid(index, position, stats);
     this.flock.push(new_boid);
-    // this.qt.insert(new_boid);
     if (index === 0) {
       this.red_leader = new_boid;
     } else if(index === 1) {
       this.blue_leader = new_boid;
     }
     return new_boid;
-  }
-
-  addStats(boid) {
-
-  }
-
-  removeStats(boid) {
-
   }
 }
