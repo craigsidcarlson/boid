@@ -1,5 +1,5 @@
 const flock = [];
-const num_boids = 1000;
+const num_boids = 1500;
 let width;
 let height;
 let qt;
@@ -11,6 +11,7 @@ function setup() {
   width = windowWidth;
   height = windowHeight;
   createCanvas(width, height);
+  frameRate(30);
   canvas_boundary = new Rectangle(width/2, height/2 , width/2, height/2);
   qt = new QuadTree(canvas_boundary);
 
@@ -46,7 +47,7 @@ function draw() {
   fill(255);
   text(`Red: ${teamZero}`, 10, 30);
   text(`Blue: ${teamOne}`, 65, 30);
-  text(`${frameRate().toFixed(0)}`, width - 200, 30);
+  text(`${frameRate().toFixed(0)}`, width - 30, 30);
   qt = new_qt;
 }
 
