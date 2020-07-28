@@ -1,5 +1,5 @@
 const flock = [];
-const num_boids = 200;
+const num_boids = 1000;
 let width;
 let height;
 let qt;
@@ -45,7 +45,8 @@ function draw() {
   textSize(12);
   fill(255);
   text(`Red: ${teamZero}`, 10, 30);
-  text(`Blue: ${teamOne}`, 60, 30);
+  text(`Blue: ${teamOne}`, 65, 30);
+  text(`${frameRate().toFixed(0)}`, width - 200, 30);
   qt = new_qt;
 }
 

@@ -131,7 +131,7 @@ class Boid {
     const breed_chance = floor(random(10));
     if(this.team !== target.team && eat_chance === 0) {
       console.log('Boid eaten');
-      this.max_speed += 0.5;
+      this.max_speed += 0.2;
       target.deleted = true;
     }
     if(this.team === target.team && breed_chance === 0) {
