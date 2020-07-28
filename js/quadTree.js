@@ -4,8 +4,9 @@ class QuadTree {
     this.capacity = capacity;
     this.boids = [];
     this.divided = false;
+    this.max_depth = 32;
     this.depth = depth;
-    this.max_sample_size = 10;
+    this.max_sample_size = 4;
   }
 
   insert(boid) {
@@ -14,11 +15,11 @@ class QuadTree {
       return false;
     }
 
-    if (this.boids.length < this.capacity) {
+    if (this.depth === this.max_depth || this.boids.length < this.capacity) {
       this.boids.push(boid);
       return true;
     } else {
-      if(!this.divided) {
+      if(!this.divided && this.depth < this.max_depth) {
         this.subdivide();
       }
 

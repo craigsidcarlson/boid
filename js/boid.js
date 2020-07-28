@@ -1,26 +1,30 @@
 class Boid {
-  constructor(init_x_velocity = 1, init_y_velocity = 1, special = false) {
-   this.position = createVector(random(width), random(height));
+  constructor(team, special = false, x = random(width), y = random(height), ) {
+   this.position = createVector(x, y);
     // this.position = createVector(width/2, height/2);
     this.velocity = p5.Vector.random2D();
     // this.velocity = createVector(init_x_velocity, init_y_velocity);
     this.velocity.setMag(random(2, 4));
     this.acceleration = createVector();
-    this.max_force = 0.1;
+    this.max_force = 0.05;
     this.max_speed = 2.8;
 
-    this.align_proximity = 30;
-    this.cohesion_proximity = 30;
-    this.separation_proximity = 45;
+    this.align_proximity = 35;
+    this.cohesion_proximity = 25;
+    this.separation_proximity = 52;
+    this.special_proximity = 15;
     this.largest_proximity = this.align_proximity;
     if (this.cohesion_proximity > this.largest_proximity) this.largest_proximity = this.cohesion_proximity;
     if (this.separation_proximity > this.largest_proximity) this.largest_proximity = this.separation_proximity;
 
-    this.boid_fov = 1 * PI; // 300 degrees
+    this.boid_fov = PI / 6; // 300 degrees
     this.special = special;
-
-//    this.color = this.special ? this.color(201, 105, 18) : color(246, 193, 1);
-    this.color = this.special ? color('red') : color(246, 193, 1);
+    this.team = team;
+    if(this.team === 0) {
+      this.color = this.special ? color('red') : color(246, 193, 1);
+    } else {
+      this.color = this.special ? color(1, 193, 246) : color(0,139,139);
+    }
 
   }
 
@@ -31,7 +35,7 @@ class Boid {
     else if (this.position.y < 0) this.position.y = height;
   }
 
-  flock(qt) {
+  flock(qt, flock) {
 
     const approximate_range = new Rectangle(this.position.x, this.position.y, this.largest_proximity/2, this.largest_proximity/2);
     const boids_in_quadrant = qt.query(approximate_range);
@@ -54,35 +58,45 @@ class Boid {
         if (distance === 0) continue;
 
         // Alignment
-        if (distance < this.align_proximity && this.inView(boids_in_quadrant[i])) {
+        if (distance < this.align_proximity) {
           align_steering.add(boids_in_quadrant[i].velocity);
           align_total++;
         }
 
         // Cohesion
-        if (distance < this.cohesion_proximity && this.inView(boids_in_quadrant[i])) {
+        if (distance < this.cohesion_proximity) {
 
           cohesion_steering.add(boids_in_quadrant[i].position);
           cohesion_total++;
         }
         //Separation
-        if (distance < this.separation_proximity && this.inView(boids_in_quadrant[i])) {
-          if(this.special) {
-            boids_in_quadrant[i].color = color(2, 193, 100);
-          } 
+        if (distance < this.separation_proximity) {
+
           const difference = p5.Vector.sub(this.position, boids_in_quadrant[i].position);
           const dif_mag = difference.mag();
           if (dif_mag === 0) continue;
           difference.div(dif_mag * dif_mag);
           separation_steering.add(difference);
           separation_total++;
-        } else if (this.special) {
-          boids_in_quadrant[i].color = color(200, 0, 200);
-        }      
+        }
+        if (this.special && this.inView(boids_in_quadrant[i]) && distance < this.special_proximity ) {
+          
+          const eat_chance = floor(random(2));
+          const breed_chance = floor(random(2));
+          if(this.team !== boids_in_quadrant[i].team && eat_chance === 0) {
+            console.log('Boid eaten')
+            boids_in_quadrant[i].deleted = true;
+          }
+          if(this.team === boids_in_quadrant[i].team && breed_chance === 0) {
+            console.log('Boid created');
+            flock.push(new Boid(this.team, false, this.position.x, this.position.y));
+          } 
+        }
     }
     const alignVector = this.getAlignVector(align_steering, align_total);
     const cohesionVector = this.getCohesionVector(cohesion_steering, cohesion_total);
     const separationVector = this.getSeparationVector(separation_steering, separation_total);
+    const avoidVector = 
     this.acceleration.add(alignVector);
     this.acceleration.add(cohesionVector);
     this.acceleration.add(separationVector);
@@ -152,7 +166,7 @@ class Boid {
     if(this.special) {
       const arc_start = this.velocity.heading() - (this.boid_fov / 2);
       const arc_end = this.velocity.heading() + (this.boid_fov / 2);
-      const diameter = this.largest_proximity;
+      const diameter = this.special_proximity;
       stroke('rgba(255,255,255, 0.25)');
       fill('rgba(255,255,255, 0.25)');
       arc(this.position.x, this.position.y, diameter, diameter, arc_start, arc_end); 
@@ -161,7 +175,6 @@ class Boid {
       // rectMode(RADIUS);
       // rect(this.position.x, this.position.y, this.largest_proximity/2, this.largest_proximity/2);
     }
-    if (!this.special) this.color = color(246, 193, 1);
     return this;
   }
 }
