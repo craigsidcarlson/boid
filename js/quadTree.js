@@ -1,9 +1,11 @@
 class QuadTree {
-  constructor(boundary, capacity = 4){
+  constructor(boundary, depth = 0, capacity = 4){
     this.boundary = boundary;
     this.capacity = capacity;
     this.boids = [];
     this.divided = false;
+    this.depth = depth;
+    this.max_sample_size = 10;
   }
 
   insert(boid) {
@@ -14,7 +16,6 @@ class QuadTree {
 
     if (this.boids.length < this.capacity) {
       this.boids.push(boid);
-      boid.color = this.color;
       return true;
     } else {
       if(!this.divided) {
@@ -37,7 +38,8 @@ class QuadTree {
       sub_boids = sub_boids.concat(this.southwest.getBoids());
       return sub_boids;
     } else {
-      return this.boids;
+      // If there are a lot of boids at the max depth then just get the first 10
+      return this.boids.slice(this.max_sample_size);
     }
   }
 
@@ -75,13 +77,13 @@ class QuadTree {
     const h = this.boundary.h;
 
     const nw = new Rectangle(x - w/2, y - h / 2, w/2, h/2);
-    this.northwest = new QuadTree(nw);
+    this.northwest = new QuadTree(nw, this.depth+1, this.capacity);
     const ne = new Rectangle(x + w/2, y - h / 2, w/2, h/2);
-    this.northeast = new QuadTree(ne);
+    this.northeast = new QuadTree(ne, this.depth+1, this.capacity);
     const sw = new Rectangle(x - w/2, y + h / 2, w/2, h/2);
-    this.southwest = new QuadTree(sw);
+    this.southwest = new QuadTree(sw, this.depth+1, this.capacity);
     const se = new Rectangle(x + w/2, y + h / 2, w/2, h/2);
-    this.southeast = new QuadTree(se);
+    this.southeast = new QuadTree(se, this.depth+1, this.capacity);
 
     // move current boids into sub quad trees
     for(let i = 0; i < this.boids.length; i++) {
