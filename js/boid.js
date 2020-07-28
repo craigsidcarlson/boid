@@ -1,31 +1,32 @@
 class Boid {
-  constructor(team, special = false, x = random(width), y = random(height), ) {
-   this.position = createVector(x, y);
-    // this.position = createVector(width/2, height/2);
+  constructor(index, position, stats) {
+    this.index = index;
+    const x = position.x;
+    const y = position.y;
+
+    this.position = createVector(x, y);
     this.velocity = p5.Vector.random2D();
-    // this.velocity = createVector(init_x_velocity, init_y_velocity);
     this.velocity.setMag(random(2, 4));
     this.acceleration = createVector();
-    this.max_force = 0.05;
-    this.max_speed = 2.8;
-
-    this.align_proximity = 35;
-    this.cohesion_proximity = 35;
-    this.separation_proximity = 52;
-    this.special_proximity = 15;
+    this.align_proximity = 30;
+    this.cohesion_proximity = 20;
+    this.separation_proximity = 35;
+    this.special_proximity = 10;
     this.largest_proximity = this.align_proximity;
     if (this.cohesion_proximity > this.largest_proximity) this.largest_proximity = this.cohesion_proximity;
     if (this.separation_proximity > this.largest_proximity) this.largest_proximity = this.separation_proximity;
 
-    this.boid_fov = PI / 6; // 300 degrees
-    this.special = special;
-    this.team = team;
+    this.max_force = stats.max_force;
+    this.mass = stats.mass;
+    this.max_speed = stats.max_speed;
+    this.boid_fov = PI / 4; // 300 degrees
+    this.special = stats.special || false ;
+    this.team = stats.team;
     if(this.team === 0) {
       this.color = this.special ? color('red') : color(246, 193, 1);
     } else {
       this.color = this.special ? color('white') : color(0,139,139);
     }
-
   }
 
   edges() {
@@ -35,10 +36,9 @@ class Boid {
     else if (this.position.y < 0) this.position.y = height;
   }
 
-  async flock(qt, flock) {
-
+  async flock() {
     const approximate_range = new Rectangle(this.position.x, this.position.y, this.largest_proximity/2, this.largest_proximity/2);
-    const boids_in_quadrant = await qt.query(approximate_range);
+    const boids_in_quadrant = env.qt.query(approximate_range);
 
     let align_steering = createVector();
     let cohesion_steering = createVector();
@@ -68,7 +68,7 @@ class Boid {
           cohesion_steering.add(boids_in_quadrant[i].position);
           cohesion_total++;
         }
-        //Separation
+        // Separation
         if (distance < this.separation_proximity) {
           const difference = p5.Vector.sub(this.position, boids_in_quadrant[i].position);
           const dif_mag = difference.mag();
@@ -77,8 +77,9 @@ class Boid {
           separation_steering.add(difference);
           separation_total++;
         }
+        // Environment interaction
         if (this.special && this.inView(boids_in_quadrant[i]) && distance < this.special_proximity) {
-          this.predatorAction(boids_in_quadrant[i], flock);
+          this.interact(boids_in_quadrant[i]);
         }
     }
     const alignVector = this.getAlignVector(align_steering, align_total);
@@ -94,7 +95,7 @@ class Boid {
       steering.div(total);
       steering.setMag(this.max_speed);
       steering.sub(this.velocity);
-      steering.limit(this.max_force);
+      steering.limit(this.max_force * this.mass);
     }
     return steering;
   }
@@ -105,7 +106,7 @@ class Boid {
       steering.sub(this.position);
       steering.setMag(this.max_speed);
       steering.sub(this.velocity);
-      steering.limit(this.max_force);
+      steering.limit(this.max_force * this.mass);
     }
     return steering;
   }
@@ -115,29 +116,18 @@ class Boid {
       steering.div(total);
       steering.setMag(this.max_speed);
       steering.sub(this.velocity);
-      steering.limit(this.max_force);
+      steering.limit(this.max_force * this.mass);
     }
     return steering;
   }
 
-  predatorAction(target, flock) {
-    if(target.special) {
-      target.max_speed *= 0.9;
-      this.max_speed *= 1.1;
-      return;
-    }
-    const eat_chance = floor(random(1));
-    const breed_chance = floor(random(10));
-    if(this.team !== target.team && eat_chance === 0) {
+   interact(target) {
+    if(this.team === target.team) {
+      env.breed_event(this, target);
+    } else {
       console.log('Boid eaten');
-      this.max_speed += 0.2;
-      target.deleted = true;
+      env.expire_event(this, target);
     }
-    if(this.team === target.team && breed_chance === 0) {
-      console.log('Boid created');
-      this.max_speed -= 0.1;
-      flock.push(new Boid(this.team, false, this.position.x, this.position.y));
-    } 
   }
 
   inView(target) {
@@ -158,11 +148,10 @@ class Boid {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.max_speed);
     this.acceleration.mult(0);
-    return this;
   }
 
   show() {
-    strokeWeight(1);
+    strokeWeight(this.mass);
     stroke(this.color);
     noFill(); // It is more performant without filling
 
