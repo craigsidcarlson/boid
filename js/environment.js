@@ -2,8 +2,9 @@ class Environment {
   constructor(qt) {
     this.flock = [];
     this.qt = qt;
-    this.starting_count = 1500;
-    this.carry_capacity = 2000;
+    this.starting_count = 1000;
+    this.carry_capacity = 500;
+    this.max_carry_capacity = 2000;
     this.num_offspring = 2;
 
     this.speed = 3.8;
@@ -39,7 +40,7 @@ class Environment {
 
   breed_event(source, target) {
     const will_breed = floor(random(this.breed_chance));
-    if (will_breed !== 0 || source.mass < this.breed_mass_min) return;
+    if (will_breed !== 0 || source.mass < this.breed_mass_min || this.flock.length > this.carry_capacity) return;
     target.deleted = true;
     for (let i = 0; i < this.num_offspring; i++) {
       const max_force = ((source.max_force + target.max_force) / 2) + random(-0.01, 0.01);
