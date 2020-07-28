@@ -176,14 +176,14 @@ class Boid {
 			this.position.x + Math.cos(angle - anglePlus) * r, this.position.y + Math.sin(angle - anglePlus) * r
     );
 
-    if(this.special) {
-      const arc_start = this.velocity.heading() - (this.boid_fov / 2);
-      const arc_end = this.velocity.heading() + (this.boid_fov / 2);
-      const diameter = this.special_proximity;
-      stroke('rgba(255,255,255, 0.25)');
-      fill('rgba(255,255,255, 0.25)');
-      arc(this.position.x, this.position.y, diameter, diameter, arc_start, arc_end); 
-    }
+    // if(this.special) {
+    //   const arc_start = this.velocity.heading() - (this.boid_fov / 2);
+    //   const arc_end = this.velocity.heading() + (this.boid_fov / 2);
+    //   const diameter = this.special_proximity;
+    //   stroke('rgba(255,255,255, 0.25)');
+    //   fill('rgba(255,255,255, 0.25)');
+    //   arc(this.position.x, this.position.y, diameter, diameter, arc_start, arc_end); 
+    // }
     return this;
   }
 }
