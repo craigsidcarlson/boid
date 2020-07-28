@@ -1,5 +1,5 @@
 const flock = [];
-const num_boids = 100;
+const num_boids = 200;
 let width;
 let height;
 let qt;

@@ -23,7 +23,7 @@ class Boid {
     if(this.team === 0) {
       this.color = this.special ? color('red') : color(246, 193, 1);
     } else {
-      this.color = this.special ? color(1, 193, 246) : color(0,139,139);
+      this.color = this.special ? color('white') : color(0,139,139);
     }
 
   }
@@ -131,7 +131,7 @@ class Boid {
     const breed_chance = floor(random(10));
     if(this.team !== target.team && eat_chance === 0) {
       console.log('Boid eaten');
-      this.max_speed += 0.3;
+      this.max_speed += 0.5;
       target.deleted = true;
     }
     if(this.team === target.team && breed_chance === 0) {
