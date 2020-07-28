@@ -1,13 +1,15 @@
 const flock = [];
 const num_boids = 100;
-const width = 1080;
-const height = 1080;
+let width;
+let height;
 let qt;
 let canvas_boundary;
 let red_leader;
 let blue_leader;
 
 function setup() {
+  width = windowWidth;
+  height = windowHeight;
   createCanvas(width, height);
   canvas_boundary = new Rectangle(width/2, height/2 , width/2, height/2);
   qt = new QuadTree(canvas_boundary);
