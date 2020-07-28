@@ -58,8 +58,14 @@ class Boid {
         if (distance === 0) continue;
 
         // Alignment
-        if (distance < this.align_proximity && this.isFriendly(boids_in_quadrant[i])) {
-          align_steering.add(boids_in_quadrant[i].velocity);
+        // if (distance < this.align_proximity && this.isFriendly(boids_in_quadrant[i])) {
+        if (distance < this.align_proximity) {
+          if (distance < this.cohesion_proximity && this.isFriendly(boids_in_quadrant[i])) {
+            align_steering.add(boids_in_quadrant[i].velocity);
+          } else {
+            const lerp = p5.Vector.lerp(align_steering, boids_in_quadrant[i].velocity, 0.25);
+            align_steering.add(lerp);
+          }
           align_total++;
         }
 

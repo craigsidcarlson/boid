@@ -15,8 +15,8 @@ class Environment {
     this.expire_chance =  1;
 
     this.breed_mass_min = 0.5;
-    this.bread_mass_loss = 0.01;
-    this.expire_mass_reward = 0.02;
+    this.bread_mass_loss = 0.02;
+    this.expire_mass_reward = 0.05;
 
     this.red_team_count = this.starting_count / 2;
     this.blue_team_count = this.starting_count / 2;
