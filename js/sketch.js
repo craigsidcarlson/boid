@@ -38,8 +38,8 @@ function draw() {
   strokeWeight(0);
   textSize(12);
   fill(255);
-  text(`Red: ${env.red_team_count}`, 10, 30);
-  text(`Blue: ${env.blue_team_count}`, 65, 30);
+  text(`Yellow: ${env.red_team_count}`, 10, 30);
+  text(`Cyan: ${env.blue_team_count}`, 65, 30);
   text(`${frameRate().toFixed(0)}`, width - 30, 30);
   text(`Carry Capacity: ${env.carry_capacity}`, width - 285, height-14);
   env.qt = new_qt;
