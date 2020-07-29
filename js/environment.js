@@ -2,9 +2,10 @@ class Environment {
   constructor(qt) {
     this.flock = [];
     this.qt = qt;
-    this.starting_count = 750;
     this.carry_capacity = 1000;
     this.max_carry_capacity = 2000;
+    this.starting_count = width < this.max_carry_capacity ? width/2 : this.carry_capacity/2;
+
     this.num_offspring = 2;
 
     this.speed = 3.8;
