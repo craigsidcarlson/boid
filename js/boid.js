@@ -31,20 +31,20 @@ class Boid {
 
   edges() {
     if (this.position.x > width) {
-      this.position.x = 0;
       this.position.y = height - this.position.y;
+      this.velocity.rotate(PI);
     }
     else if (this.position.x < 0) {
-      this.position.x = width;
       this.position.y = height - this.position.y;
+      this.velocity.rotate(PI);    
     }
     if (this.position.y > height) {
-      this.position.y = 0;
       this.position.x = width - this.position.x;
+      this.velocity.rotate(PI);    
     }
     else if (this.position.y < 0) {
-      this.position.y = height;
       this.position.x = width - this.position.x;
+      this.velocity.rotate(PI);
     }
   }
 
