@@ -3,6 +3,11 @@ let height;
 let env;
 let canvas_boundary;
 let carry_capacity_slider;
+
+let top_edge_vector 
+let bottom_edge_vector 
+let left_edge_vector 
+let right_edge_vector;
 function setup() {
   width = windowWidth;
   height = windowHeight;
@@ -10,6 +15,10 @@ function setup() {
   // height = 80;
   createCanvas(width, height);
   frameRate(30);
+  top_edge_vector = createVector(0, 1);
+  bottom_edge_vector = createVector(0, -1);
+  left_edge_vector = createVector(1, 0);
+  right_edge_vector = createVector(-1, 0);
   canvas_boundary = new Rectangle(width/2, height/2 , width/2, height/2);
   const qt = new QuadTree(canvas_boundary);
   env = new Environment(qt);
