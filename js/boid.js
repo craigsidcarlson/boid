@@ -12,7 +12,7 @@ class Boid {
     this.cohesion_proximity = 20;
     this.separation_proximity = 35;
     this.special_proximity = 10;
-    this.edge_proximity = 30;
+    this.edge_proximity = 15;
     this.largest_proximity = this.align_proximity;
     if (this.cohesion_proximity > this.largest_proximity) this.largest_proximity = this.cohesion_proximity;
     if (this.separation_proximity > this.largest_proximity) this.largest_proximity = this.separation_proximity;
@@ -32,12 +32,11 @@ class Boid {
 
   edges() {
     const incoming_mag = this.velocity.mag();
-    if (this.position.x + this.edge_proximity > width) {
-      this.velocity.lerp(right_edge_vector, 0.2);
+    if (this.position.x > width) {
+      this.position.x = 0;
     }
-    else if (this.position.x - this.edge_proximity < 0) {
-      this.velocity.lerp(left_edge_vector, 0.2);
-   
+    else if (this.position.x < 0) {
+      this.position.x = width;
     }
     if (this.position.y + this.edge_proximity> height) {
       this.velocity.lerp(bottom_edge_vector, 0.2);
