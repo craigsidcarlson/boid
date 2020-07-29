@@ -4,7 +4,7 @@ class Environment {
     this.qt = qt;
     this.carry_capacity = 1000;
     this.max_carry_capacity = 2000;
-    this.starting_count = width < this.max_carry_capacity ? width/2 : this.carry_capacity/2;
+    this.starting_count = width < this.max_carry_capacity ? floor(width/2) : this.carry_capacity/2;
 
     this.num_offspring = 2;
 
