@@ -6,6 +6,8 @@ let carry_capacity_slider;
 function setup() {
   width = windowWidth;
   height = windowHeight;
+  // width = 80;
+  // height = 80;
   createCanvas(width, height);
   frameRate(30);
   canvas_boundary = new Rectangle(width/2, height/2 , width/2, height/2);
@@ -41,7 +43,7 @@ function draw() {
   text(`Yellow: ${env.red_team_count}`, 10, 30);
   text(`Cyan: ${env.blue_team_count}`, 80, 30);
   text(`${frameRate().toFixed(0)}`, width - 30, 30);
-  text(`Carry Capacity: ${env.carry_capacity}`, width - 285, height-14);
+  text(`Carry Capacity: ${env.carry_capacity}`, width - 290, height-14);
   env.qt = new_qt;
 }
 

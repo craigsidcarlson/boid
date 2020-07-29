@@ -2,8 +2,8 @@ class Environment {
   constructor(qt) {
     this.flock = [];
     this.qt = qt;
-    this.starting_count = 1000;
-    this.carry_capacity = 500;
+    this.starting_count = 750;
+    this.carry_capacity = 1000;
     this.max_carry_capacity = 2000;
     this.num_offspring = 2;
 
@@ -58,7 +58,7 @@ class Environment {
 
   expire_event(source, target) {
     if(target.special) {
-      target.mass = target.breed_mass_min;
+      target.mass = this.breed_mass_min;
       source.mass += this.expire_mass_reward; 
       return;
     }
