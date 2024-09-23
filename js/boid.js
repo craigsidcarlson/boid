@@ -31,7 +31,7 @@ class Boid {
       this.color = this.special ? color('white') : color(0,139,139);
     } else if (this.team === 2) {
       this.color = this.special ? color('cyan') : color(0,250,154);
-    } else if this.team === 3) {
+    } else if (this.team === 3) {
       this.color = this.special ? color('orange') : color(255,12,150);
     }
 
