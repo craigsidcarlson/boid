@@ -21,7 +21,9 @@ class Boid {
     this.mass = stats.mass;
     this.boid_fov = PI / 4; // 300 degrees
     this.special = stats.special || false ;
-    this.max_speed = this.special ? (stats.max_speed * 1.2 ): stats.max_speed;
+    this.max_speed = this.special ? (stats.max_speed * 1.5): stats.max_speed;
+    this.max_force = this.special ? (stats.max_force * 1.5) : stats.max_force;
+    this.mass = this.special ? (stats.mass * 1.5) : stats.mass;
     this.team = stats.team;
     if(this.team === 0) {
       this.color = this.special ? color('red') : color(246, 193, 1);
