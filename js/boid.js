@@ -28,7 +28,7 @@ class Boid {
     if(this.team === 0) {
       this.color = this.special ? color('#ef476f') : color('#ef476f');
     } else if (this.team === 1) {
-      this.color = this.special ? color('#26547c') : color('#26547c');
+      this.color = this.special ? color('#00fefc') : color('#00fefc');
     } else if (this.team === 2) {
       this.color = this.special ? color('#06d6a0') : color('#06d6a0');
     } else if (this.team === 3) {
