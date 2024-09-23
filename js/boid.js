@@ -178,7 +178,7 @@ class Boid {
   }
 
   show() {
-    strokeWeight(this.mass);
+    strokeWeight(1);
     stroke(this.color);
     noFill(); // It is more performant without filling
 
