@@ -19,9 +19,9 @@ class Boid {
 
     this.max_force = stats.max_force;
     this.mass = stats.mass;
-    this.max_speed = stats.max_speed;
     this.boid_fov = PI / 4; // 300 degrees
     this.special = stats.special || false ;
+    this.max_speed = this.special ? (stats.max_speed * 1.2 ): stats.max_speed;
     this.team = stats.team;
     if(this.team === 0) {
       this.color = this.special ? color('red') : color(246, 193, 1);
@@ -111,7 +111,7 @@ class Boid {
   getAlignVector(steering, total) {
     if (total > 0) {
       steering.div(total);
-      steering.setMag(this.max_speed);
+      steering.setMag(this.);
       steering.sub(this.velocity);
       steering.limit(this.max_force * this.mass);
     }
@@ -122,7 +122,7 @@ class Boid {
     if (total > 0) {
       steering.div(total);
       steering.sub(this.position);
-      steering.setMag(this.max_speed);
+      steering.setMag(this.);
       steering.sub(this.velocity);
       steering.limit(this.max_force * this.mass);
     }
@@ -132,7 +132,7 @@ class Boid {
   getSeparationVector(steering, total) {
     if (total > 0) {
       steering.div(total);
-      steering.setMag(this.max_speed);
+      steering.setMag(this.);
       steering.sub(this.velocity);
       steering.limit(this.max_force * this.mass);
     }
