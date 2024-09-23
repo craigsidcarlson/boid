@@ -27,8 +27,12 @@ class Boid {
     this.team = stats.team;
     if(this.team === 0) {
       this.color = this.special ? color('red') : color(246, 193, 1);
-    } else {
+    } else if (this.team === 1) {
       this.color = this.special ? color('white') : color(0,139,139);
+    } else if (this.team === 2) {
+      this.color = this.special ? color('cyan') : color(0,250,154);
+    }else if this.team === 3) {
+      this.color = this.special ? color('orange') : color(255,255,0);
     }
   }
 
