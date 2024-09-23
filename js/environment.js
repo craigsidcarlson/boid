@@ -19,20 +19,36 @@ class Environment {
     this.bread_mass_loss = 0.02;
     this.expire_mass_reward = 0.05;
 
-    this.red_team_count = this.starting_count / 2;
-    this.blue_team_count = this.starting_count / 2;
+    this.red_team_count = this.starting_count / 4;
+    this.blue_team_count = this.starting_count / 4;
+    this.green_team_count = this.starting_count / 4;
+    this.yellow_team_count = this.starting_count / 4;
 
     this.red_leader;
     this.blue_leader;
-
+    this.green_leader;
+    this.yellow_leader;
+    
     this.red_stats = {
-      count: this.starting_count / 2,
+      count: this.starting_count / 4,
       avg_speed: this.speed,
       avg_mass: this.mass,
       avg_force: this.force
     };
     this.blue_stats = {
-      count: this.starting_count / 2,
+      count: this.starting_count / 4,
+      avg_speed: this.speed,
+      avg_mass: this.mass,
+      avg_force: this.force
+    };
+    this.green_stats = {
+      count: this.starting_count / 4,
+      avg_speed: this.speed,
+      avg_mass: this.mass,
+      avg_force: this.force
+    };
+    this.yellow_stats = {
+      count: this.starting_count / 4,
       avg_speed: this.speed,
       avg_mass: this.mass,
       avg_force: this.force
@@ -75,14 +91,18 @@ class Environment {
     const index = this.flock.length;
     const position = p || { x: random(width), y: random(height) };
     let special = false;
-    if (index === 0 || index === 1) special = true;
-    const stats = s || { max_force: this.force, mass: this.mass, max_speed: this.speed, team: index % 2, special };
+    if (index === 0 || index === 1 || index === 2 || index === 3) special = true;
+    const stats = s || { max_force: this.force, mass: this.mass, max_speed: this.speed, team: index % 4, special };
     const new_boid = new Boid(index, position, stats);
     this.flock.push(new_boid);
     if (index === 0) {
       this.red_leader = new_boid;
     } else if(index === 1) {
       this.blue_leader = new_boid;
+    } else if(index === 2) {
+      this.green_leader = new_boid;
+    } else if(index === 3) {
+      this.yellow_leader = new_boid;
     }
     return new_boid;
   }
