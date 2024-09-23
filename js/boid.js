@@ -26,13 +26,13 @@ class Boid {
     this.mass = this.special ? (stats.mass * 3) : stats.mass;
     this.team = stats.team;
     if(this.team === 0) {
-      this.color = this.special ? color('red') : color(246, 193, 1);
+      this.color = this.special ? color('red') : color('orange');
     } else if (this.team === 1) {
-      this.color = this.special ? color('white') : color(0,139,139);
+      this.color = this.special ? color('white') : color('grey');
     } else if (this.team === 2) {
-      this.color = this.special ? color('cyan') : color(0,250,154);
+      this.color = this.special ? color('cyan') : color('blue');
     } else if (this.team === 3) {
-      this.color = this.special ? color('orange') : color(255,12,150);
+      this.color = this.special ? color('yellow') : color('green');
     }
 
    if (this.special) {

@@ -60,9 +60,9 @@ class Environment {
     if (will_breed !== 0 || source.mass < this.breed_mass_min || this.flock.length > this.carry_capacity) return;
     target.deleted = true;
     for (let i = 0; i < this.num_offspring; i++) {
-      const max_force = ((source.max_force + target.max_force) / 2) + random(-0.01, 0.01);
-      const mass = ((source.mass + target.mass) / 2) + random(-0.1, 0.1);
-      const max_speed = ((source.max_speed + target.max_speed) / 2) + random(-0.1, 0.1);
+      const max_force = target.max_force + random(-0.01, 0.01);
+      const mass = target.mass + random(-0.01, 0.01);
+      const max_speed = target.max_speed + random(-0.01, 0.01);
 
       const stats = { max_force, mass, max_speed, team: source.team };
       const position = source.position;
