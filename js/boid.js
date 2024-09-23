@@ -178,8 +178,8 @@ class Boid {
   }
 
   show() {
-    const strokeWeight = this.special ? 1.5 : 1;
-    strokeWeight(strokeWeight);
+    const calculatedStrokeWeight = this.special ? 1.5 : 1;
+    strokeWeight(calculatedStrokeWeight);
     stroke(this.color);
     noFill(); // It is more performant without filling
 
