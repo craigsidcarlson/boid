@@ -71,6 +71,11 @@ class Boid {
     let separation_total = 0;
 
     for (let i = 0; i < boids_in_quadrant.length; i++) {
+        // Environment interaction
+        if (this.special && this.inView(boids_in_quadrant[i]) && distance < this.special_proximity) {
+          this.interact(boids_in_quadrant[i]);
+          continue;
+        }
         const distance = dist(
           this.position.x, 
           this.position.y, 
@@ -96,7 +101,7 @@ class Boid {
           cohesion_total++;
         }
         // Separation
-        if (distance < this.separation_proximity) {
+        if (distance < this.separation_proximity && this.isFriendly(boids_in_quadrant[i])) {
           const difference = p5.Vector.sub(this.position, boids_in_quadrant[i].position);
           const dif_mag = difference.mag();
           if (dif_mag === 0) continue;
@@ -104,10 +109,7 @@ class Boid {
           separation_steering.add(difference);
           separation_total++;
         }
-        // Environment interaction
-        if (this.special && this.inView(boids_in_quadrant[i]) && distance < this.special_proximity) {
-          this.interact(boids_in_quadrant[i]);
-        }
+ 
     }
     const alignVector = this.getAlignVector(align_steering, align_total);
     const cohesionVector = this.getCohesionVector(cohesion_steering, cohesion_total);
