@@ -51,8 +51,8 @@ function draw() {
   fill(255);
   text(`Red: ${env.red_team_count}`, 10, 30);
   text(`Blue: ${env.blue_team_count}`, 80, 30);
-  text(`Green: ${env.green_team_count}`, 10, 30);
-  text(`Yellow: ${env.yellow_team_count}`, 80, 30);
+  text(`Green: ${env.green_team_count}`, 150, 30);
+  text(`Yellow: ${env.yellow_team_count}`, 220, 30);
   text(`${frameRate().toFixed(0)}`, width - 30, 30);
   text(`Carry Capacity: ${env.carry_capacity}`, width - 290, height-14);
   env.qt = new_qt;
