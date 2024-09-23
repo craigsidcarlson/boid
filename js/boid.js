@@ -131,7 +131,7 @@ class Boid {
     if (total > 0) {
       steering.div(total);
       steering.sub(this.position);
-      steering.setMag(this.);
+      steering.setMag(this.max_speed);
       steering.sub(this.velocity);
       steering.limit(this.max_force * this.mass);
     }
@@ -141,7 +141,7 @@ class Boid {
   getSeparationVector(steering, total) {
     if (total > 0) {
       steering.div(total);
-      steering.setMag(this.);
+      steering.setMag(this.max_speed);
       steering.sub(this.velocity);
       steering.limit(this.max_force * this.mass);
     }
