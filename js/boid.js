@@ -26,13 +26,13 @@ class Boid {
     this.mass = this.special ? (stats.mass * 3) : stats.mass;
     this.team = stats.team;
     if(this.team === 0) {
-      this.color = this.special ? color('red') : color('orange');
+      this.color = this.special ? color('red') : color('red');
     } else if (this.team === 1) {
-      this.color = this.special ? color('white') : color('grey');
+      this.color = this.special ? color('blue') : color('blue');
     } else if (this.team === 2) {
-      this.color = this.special ? color('cyan') : color('blue');
+      this.color = this.special ? color('green') : color('green');
     } else if (this.team === 3) {
-      this.color = this.special ? color('yellow') : color('green');
+      this.color = this.special ? color('yellow') : color('yellow');
     }
 
    if (this.special) {
@@ -178,7 +178,8 @@ class Boid {
   }
 
   show() {
-    strokeWeight(1);
+    const strokeWeight = this.special ? 1.5 : 1;
+    strokeWeight(strokeWeight);
     stroke(this.color);
     noFill(); // It is more performant without filling
 
