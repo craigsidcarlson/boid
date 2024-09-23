@@ -32,7 +32,7 @@ class Boid {
     } else if (this.team === 2) {
       this.color = this.special ? color('cyan') : color(0,250,154);
     }else if this.team === 3) {
-      this.color = this.special ? color('orange') : color(255,255,0);
+      this.color = this.special ? color('orange') : color(255,12,150);
     }
   }
 
@@ -76,9 +76,8 @@ class Boid {
         if (distance === 0) continue;
 
         // Alignment
-        // if (distance < this.align_proximity && this.isFriendly(boids_in_quadrant[i])) {
-        if (distance < this.align_proximity) {
-          if (distance < this.cohesion_proximity && this.isFriendly(boids_in_quadrant[i])) {
+        if (distance < this.align_proximity && this.isFriendly(boids_in_quadrant[i])) {
+          if (distance < this.cohesion_proximity ) {
             align_steering.add(boids_in_quadrant[i].velocity);
           } else {
             const lerp = p5.Vector.lerp(align_steering, boids_in_quadrant[i].velocity, 0.25);
@@ -163,7 +162,7 @@ class Boid {
   }
 
   isFriendly(target) {
-    if (this.special) return true;
+    // if (this.special) return true;
     return this.team === target.team;
   }
 
